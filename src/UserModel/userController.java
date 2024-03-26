@@ -12,7 +12,7 @@ public class userController implements User {
    
     dbConnection db;
     @Override
-    public boolean register(String username, String password) {
+    public boolean register(String username, String password,String role) {
        
       db = new dbConnection();
       Connection conn = db.connectDB();
@@ -30,9 +30,10 @@ public class userController implements User {
       }
       else
       {
-        ps = conn.prepareStatement("Insert into users(username,password)Values(?,?)");
+        ps = conn.prepareStatement("Insert into users(username,password,role)Values(?,?,?)");
         ps.setString(1, username);
         ps.setString(2, password);
+        ps.setString(3, role);
         ps.executeUpdate();
         return true;
        // System.out.println("welcome to the server");
@@ -76,6 +77,30 @@ public class userController implements User {
           e.printStackTrace();
       }
       return false;
+    }
+
+    @Override
+    public boolean checkAdmin(String username) {
+      db = new dbConnection();
+      Connection conn = db.connectDB();
+      PreparedStatement ps;
+      try {
+      ps =  conn.prepareStatement("SELECT * from users WHERE username = ? AND role = ?");
+      ps.setString(1, username);
+      ps.setString(2, "admin");
+      ResultSet rs = ps.executeQuery();
+      if (rs.next()) {
+         return true;
+      }
+      else
+      {
+          return false;
+        //  System.out.println("username not found");
+      }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return false;
     }
 
     // signUp && login

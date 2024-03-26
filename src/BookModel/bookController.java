@@ -21,20 +21,22 @@ public class bookController implements Book {
       Connection conn =  db.connectDB();
      try {
         Statement statement =  conn.createStatement();
-         ResultSet rs = statement.executeQuery("Select * from book where quantity > 1");
+         ResultSet rs = statement.executeQuery("Select * from book where quantity >= 1");
        
-        if(rs.next()){
-      //  while(rs.next())
-        //{
-            return rs.getString(1) + " "+ rs.getString(2)+" "+ rs.getString(3)+" "+ rs.getString(4)+" "+ rs.getInt(5)+" "+ rs.getInt(6);//+rs.getArray(7);
-           
-            // System.out.println(rs.getString(1) + " "+ rs.getString(2)+" "+ rs.getString(3)+" "+ rs.getString(4)+" "+ rs.getString(5)+" "+ rs.getString(6));
-        //}
-    }else{
-        return "no available books";
-       // System.out.println("no available books");
-    }
+         StringBuilder booksString = new StringBuilder();
+            boolean flag = false;
+            while (rs.next()) {
+                String bookInfo = rs.getString(1) + " " + rs.getString(2) + " " + rs.getString(3) + " "
+                        + rs.getString(4) + " " + rs.getInt(5) + " " + rs.getInt(6);
+                booksString.append(bookInfo).append("\n");
+                flag = true;
+            }
 
+            if (flag) {
+                return booksString.toString();
+            } else {
+                return "No available books";
+            }
     } catch (SQLException e) {
         
         e.printStackTrace();
@@ -62,14 +64,20 @@ public class bookController implements Book {
         ResultSet rs = ps.executeQuery();
 
         // Process the result set
-        if(rs.next()){
-       // while (rs.next()) {
-           
-            return rs.getString(1) + " "+ rs.getString(2)+" "+ rs.getString(3)+" "+ rs.getString(4)+" "+ rs.getInt(5)+" "+ rs.getInt(6);//+rs.getArray(7);
-        //}
-        }else{
-            return "no available Books";
-        }
+        StringBuilder booksString = new StringBuilder();
+            boolean flag = false;
+            while (rs.next()) {
+                String bookInfo = rs.getString(1) + " " + rs.getString(2) + " " + rs.getString(3) + " "
+                        + rs.getString(4) + " " + rs.getInt(5) + " " + rs.getInt(6);
+                booksString.append(bookInfo).append("\n");
+                flag = true;
+            }
+
+            if (flag) {
+                return booksString.toString();
+            } else {
+                return "No available books";
+            }
 
 
       } catch (SQLException e) {
@@ -143,9 +151,38 @@ public class bookController implements Book {
     }
 
     @Override
-    public String removeBook() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'removeBook'");
+    public String removeBook(String lenderName , String title) {
+        
+        db = new dbConnection();
+        Connection conn =  db.connectDB();
+        PreparedStatement ps;
+       try {
+        ps = conn.prepareStatement("DELETE FROM book WHERE lenderName = ? AND title = ?");
+
+       
+        // Set the parameters for the prepared statement
+        ps.setString(1, lenderName);
+        ps.setString(2, title);
+
+        // Execute the query
+        int rowsAffected = ps.executeUpdate();
+        if(rowsAffected > 0)
+        {
+            return "deleted successfully";
+        }
+        else{
+            return "nothing to delete";
+        }
+
+        // Process the result set
+        
+           
+
+      } catch (SQLException e) {
+         
+          e.printStackTrace();
+      }
+       return "nothing to delete 2";
     }
 
     //browse && search && add && remove
