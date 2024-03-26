@@ -3,7 +3,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+
 
 import DB.dbConnection;
 
@@ -17,7 +17,7 @@ public class userController implements User {
       db = new dbConnection();
       Connection conn = db.connectDB();
       PreparedStatement ps;
-      Statement s ; 
+     // Statement s ; 
       try {
         // s = conn.createStatement();
         // ResultSet rs = s.executeQuery("Select * from users");
@@ -25,7 +25,8 @@ public class userController implements User {
       ps.setString(1, username);
       ResultSet rs = ps.executeQuery();
       if (rs.next()) {
-        System.out.println("username already exist");
+        return false;
+       // System.out.println("username already exist");
       }
       else
       {

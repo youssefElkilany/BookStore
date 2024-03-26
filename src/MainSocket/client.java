@@ -35,22 +35,22 @@
 //                 }
 //             });
 
-//             Thread writeThread = new Thread(() -> {
-//                 try {
-//                     DataOutputStream writer = new DataOutputStream(socket.getOutputStream());
-//                     //DataInputStream userInput = new DataInputStream(System.in);
-//                     BufferedReader reader = new BufferedReader(
-// 			 new InputStreamReader(System.in));
-//                     while (true) {
-//                       System.out.println("gg2");
-//                         String input = reader.readLine();
-//                         writer.writeUTF(input);
-//                         writer.flush();
-//                     }
-//                 } catch (IOException e) {
-//                     e.printStackTrace();
-//                 }
-//             });
+            // Thread writeThread = new Thread(() -> {
+            //     try {
+            //         DataOutputStream writer = new DataOutputStream(socket.getOutputStream());
+            //         //DataInputStream userInput = new DataInputStream(System.in);
+            //         BufferedReader reader = new BufferedReader(
+			//  new InputStreamReader(System.in));
+            //         while (true) {
+            //           System.out.println("gg2");
+            //             String input = reader.readLine();
+            //             writer.writeUTF(input);
+            //             writer.flush();
+            //         }
+            //     } catch (IOException e) {
+            //         e.printStackTrace();
+            //     }
+            // });
 
 //             // Start the threads
 //             readThread.start();
@@ -84,12 +84,31 @@ public class client {
 
 
             BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
+            boolean flag = false;
 
+            Thread writeThread = new Thread(() -> {
+                try {
+            //         DataOutputStream writer = new DataOutputStream(socket.getOutputStream());
+            //         //DataInputStream userInput = new DataInputStream(System.in);
+            //         BufferedReader reader = new BufferedReader(
+			//  new InputStreamReader(System.in));
+                    while (true) {
+                      //System.out.println("gg2");
+                        String input = consoleReader.readLine();
+                        writer.println(input);
+                        //writer.flush();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+           
             Thread readThread = new Thread(() -> {
                               try {
                      String message;
                      while((message = reader.readLine()) != null){
                       System.out.println("Server response: " + message);
+                     
                      }
                               } catch (IOException e) {
                                   e.printStackTrace();
@@ -98,48 +117,63 @@ public class client {
 
             
 readThread.start();
-            while (true) {
-              String question;
+writeThread.start();
+
+//             while (true) {
+//               String question;
             
-                  System.out.print("Your response: ");
-                  String response = consoleReader.readLine(); // Read response from client
-                  writer.println(response); // Send response to server
+//                   System.out.print("Your response: ");
+//                   String response = consoleReader.readLine(); // Read response from client
+//                   writer.println(response); // Send response to server
   
-                    if(response.equals("1")) // register
-                  {
-                    System.out.println("11111");
-                    String username = consoleReader.readLine(); // c
-                    writer.println(username);
+//                     if(response.equals("1")) // register
+//                   {
+//                     System.out.println("11111");
+//                     String username = consoleReader.readLine(); // c
+//                     writer.println(username);
                   
-                    String password = consoleReader.readLine(); // c
-                    writer.println(password);
-                  }
+//                     String password = consoleReader.readLine(); // c
+//                     writer.println(password);
+//                     if(reader.readLine() == "true")
+//                     {
+//                         flag = true;
+//                     }
+//                   }
   
-                  else if(response.equals("2")) // login
-                  {
-                    String username = consoleReader.readLine();
-                    writer.println(username);
-                    String password = consoleReader.readLine();
-                    writer.println(password);
-                  }
+//                   else if(response.equals("2")) // login
+//                   {
+//                     String username = consoleReader.readLine();
+//                     writer.println(username);
+//                     String password = consoleReader.readLine();
+//                     writer.println(password);
+//                     if(reader.readLine() == "true")
+//                     {
+//                         flag = true;
+//                     }
+//                   }
+//                 //   if(flag)
+//                 //   {
+//                 //      if(response.equals("3"))
+//                 //     {
+//                 //         System.out.println("ana gowaa ahaha");
+//                 //       String username = consoleReader.readLine();
+//                 //       writer.println(username);
+//                 //       String password = consoleReader.readLine();
+//                 //       writer.println(password);
+//                 //     }
+//                 //   }
 
-                  else if(response.equals("3"))
-                  {
-                    String username = consoleReader.readLine();
-                    writer.println(username);
-                    String password = consoleReader.readLine();
-                    writer.println(password);
-                  }
-                  else if (response.equalsIgnoreCase("exit")) {
-                    writer.println("Goodbye!"); // Send final message
-                    break; // Exit loop if client wants to end the conversation
-                }
+                 
+//                   else if (response.equalsIgnoreCase("exit")) {
+//                     writer.println("Goodbye!"); // Send final message
+//                     break; // Exit loop if client wants to end the conversation
+//                 }
                   
- String choice = consoleReader.readLine();
- writer.println(choice);
-            }
+//  String choice = consoleReader.readLine();
+//  writer.println(choice);
+//             }
 
-            clientSocket.close();
+//             clientSocket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
