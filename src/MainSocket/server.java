@@ -26,9 +26,9 @@ public class server {
     // }
 
 
-    public synchronized void removeClient(ClientHandler client) {
-        clients.remove(client);
-    }
+    // public synchronized void removeClient(ClientHandler client) {
+    //     clients.remove(client);
+    // }
 
     public synchronized boolean isFull() {
         return clients.size() >= 2; // 2 is max client in a server

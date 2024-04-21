@@ -88,10 +88,10 @@ class ClientHandler extends Thread {
             while (true) {
              
                 
-               System.out.println("ana el 3amlha 2  = "+  multiThreadServer.server.getClient());
+              // System.out.println("ana el 3amlha 2  = "+  multiThreadServer.server.getClient());
                System.out.println("client = "+ client);
                System.out.println("client = "+ ClientHandler.this);
-               System.out.println("clientsList = " + multiThreadServer.clientsList);
+             //  System.out.println("clientsList = " + multiThreadServer.clientsList);
               
                 String savedUser = "";
                
